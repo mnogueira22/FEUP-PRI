@@ -5,14 +5,10 @@ DROP TABLE IF EXISTS DriverChampionship;
 DROP TABLE IF EXISTS ConstructorChampionship;
 DROP TABLE IF EXISTS Driver;
 DROP TABLE IF EXISTS GrandPrixWeekend;
-DROP TABLE IF EXISTS Race;
-DROP TABLE IF EXISTS Qualifying;
 DROP TABLE IF EXISTS RaceResult;
-DROP TABLE IF EXISTS QualifyingResult;
 
 CREATE TABLE Season (
-    seasonID INTEGER PRIMARY KEY AUTOINCREMENT,
-    year INTEGER NOT NULL
+    year INTEGER PRIMARY KEY
 );
 
 
@@ -31,19 +27,19 @@ CREATE TABLE Constructor (
 
 CREATE TABLE DriverChampionship (
     driverID INTEGER NOT NULL,
-    seasonID INTEGER NOT NULL,
+    year INTEGER NOT NULL,
     position INTEGER NOT NULL,
     points INTEGER NOT NULL,
-    FOREIGN KEY (seasonID) REFERENCES Season(seasonID),
+    FOREIGN KEY (year) REFERENCES Season(year),
     FOREIGN KEY (driverID) REFERENCES Driver(driverID)
 );
 
 CREATE TABLE ConstructorChampionship (
     constructorID INTEGER NOT NULL,
-    seasonID INTEGER NOT NULL,
+    year INTEGER NOT NULL,
     position INTEGER NOT NULL,
     points INTEGER NOT NULL,
-    FOREIGN KEY (seasonID) REFERENCES Season(seasonID),
+    FOREIGN KEY (year) REFERENCES Season(year),
     FOREIGN KEY (constructorID) REFERENCES Constructor(constructorID)
 );
 
@@ -63,48 +59,24 @@ CREATE TABLE GrandPrixWeekend (
     round INTEGER NOT NULL,
     circuitID INTEGER NOT NULL,
     url TEXT NOT NULL,
+    weatherCondition TEXT NOT NULL,
+    date DATE NOT NULL,
+    summary TEXT NOT NULL,
     FOREIGN KEY (circuitID) REFERENCES Circuit(circuitID)
 );
 
-CREATE TABLE Race (
-    raceID INTEGER PRIMARY KEY AUTOINCREMENT,
-    gpID INTEGER NOT NULL,
-    date DATE NOT NULL,
-    time TIME NOT NULL,
-    weatherCondition TEXT NOT NULL,
-    raceSummary TEXT NOT NULL,
-    FOREIGN KEY (gpID) REFERENCES GrandPrixWeekend(gpID)
-);
-
-CREATE TABLE Qualifying (
-    qualifyingID INTEGER PRIMARY KEY AUTOINCREMENT,
-    gpID INTEGER NOT NULL,
-    date DATE NOT NULL,
-    time TIME NOT NULL,
-    weatherCondition TEXT NOT NULL,
-    qualifyingSummary TEXT NOT NULL,
-    FOREIGN KEY (gpID) REFERENCES GrandPrixWeekend(gpID)
-);
-
 CREATE TABLE RaceResult (
-    raceResultID INTEGER PRIMARY KEY,
+    raceResultID INTEGER PRIMARY KEY AUTOINCREMENT,
     gpID INTEGER NOT NULL,
     driverID INTEGER NOT NULL,
-    position INTEGER NOT NULL,
+    constructorID INTEGER NOT NULL,
+    racePosition INTEGER NOT NULL,
+    qualiPosition INTEGER NOT NULL,
+    qualiTime TEXT NOT NULL,
     points INTEGER NOT NULL,
     FOREIGN KEY (gpID) REFERENCES GrandPrixWeekend(gpID),
-    FOREIGN KEY (driverID) REFERENCES Driver(driverID)
+    FOREIGN KEY (driverID) REFERENCES Driver(driverID),
+    FOREIGN KEY (constructorID) REFERENCES Constructor(constructorID)
 );
 
-CREATE TABLE QualifyingResult (
-    qualifyingResultID INTEGER PRIMARY KEY,
-    gpID INTEGER NOT NULL,
-    driverID INTEGER NOT NULL,
-    position INTEGER NOT NULL,
-    q1Time TIME NOT NULL,
-    q2Time TIME NOT NULL,
-    q3Time TIME NOT NULL,
-    FOREIGN KEY (gpID) REFERENCES GrandPrixWeekend(gpID),
-    FOREIGN KEY (driverID) REFERENCES Driver(driverID)
-);
 
