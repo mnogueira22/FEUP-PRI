@@ -1,5 +1,6 @@
 import pandas as pd
 import requests
+import json
 
 # Gather URLs
 df = pd.read_csv('collection/clean_data/races.csv')
@@ -26,16 +27,17 @@ for url in URLs:
     if response.status_code == 200:
         data = response.json()
         pages = data.get("query", {}).get("pages", [])
-        
         if pages:
             for page in pages:
                 if 'missing'not in page:# Check if the page exists
-                    with open('data.txt', 'a', encoding='utf-8') as file:
+                    with open('data1.txt', 'a', encoding='utf-8') as file:
                         page_data = {
                         "title": title,
                         "text": page.get('extract', 'No content found')
                         }
-                        file.write(str(page_data) + "\n\n\n")
+
+                        json_data = json.dumps(page_data)
+                        file.write(json_data + "\n")
                 else:
                     print(f"Page for {title} not found.")
         else:
