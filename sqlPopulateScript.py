@@ -27,6 +27,18 @@ races.to_sql("Races", con, if_exists="replace", index=False)
 results = pd.read_csv("collection/clean_data/results.csv")
 results.to_sql("Results", con, if_exists="replace", index=False)
 
+# Read the constructor championship data from the csv file
+constructorChampionship = pd.read_csv("collection/clean_data/constructors_standings.csv")
+results.to_sql("ConstructorChampionship", con, if_exists="replace", index=False)
+
+# Read the driver championship data from the csv file  
+driverChampionship = pd.read_csv("collection/clean_data/drivers_standings.csv")
+results.to_sql("DriverChampionship", con, if_exists="replace", index=False)
+
+con.close()
+
+con = sqlite3.connect("database.db")
+
 # print the tables with content in the database
 print(pd.read_sql_query("SELECT * FROM Seasons", con))
 print(pd.read_sql_query("SELECT * FROM Circuits", con))
@@ -34,13 +46,9 @@ print(pd.read_sql_query("SELECT * FROM Constructors", con))
 print(pd.read_sql_query("SELECT * FROM Drivers", con))
 print(pd.read_sql_query("SELECT * FROM Races", con))
 print(pd.read_sql_query("SELECT * FROM Results", con))
-
-con.close()
-
-#print the tables of constructorchampionship and driverchampionship
-con = sqlite3.connect("database.db")
 print(pd.read_sql_query("SELECT * FROM ConstructorChampionship", con))
 print(pd.read_sql_query("SELECT * FROM DriverChampionship", con))
+
 con.close()
 
 
