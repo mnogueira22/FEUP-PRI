@@ -30,7 +30,7 @@ for url in URLs:
         if pages:
             for page in pages:
                 if 'missing'not in page:# Check if the page exists
-                    with open('data1.txt', 'a', encoding='utf-8') as file:
+                    with open('data.txt', 'a', encoding='utf-8') as file:
                         page_data = {
                         "title": title,
                         "text": page.get('extract', 'No content found')
