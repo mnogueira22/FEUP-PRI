@@ -8,10 +8,12 @@ all: clean collect process analyze
 
 clean:
 	rm -f collection/clean_data/*.csv
+	rm -f collection/original_data/*.csv
 
 # Collect Data
 
 collect:
+	python3 collection/kaggleScript.py
 	jupyter nbconvert --execute --to notebook --inplace collection/clean_data.ipynb
 	python3 wikipediaAPI.py
 
