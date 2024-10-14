@@ -1,6 +1,7 @@
 import json
 import pandas
 import re
+import wptools
 
 with open('data.txt', 'r', encoding='utf-8') as file:
     for line in file:
@@ -25,9 +26,18 @@ with open('data.txt', 'r', encoding='utf-8') as file:
                     pattern = f"== {section} ==.*?(?== |$)"  # Regex to match sections to remove
                     text = re.sub(pattern, "", text, flags=re.DOTALL) 
 
-                races = pandas.read_csv('collection/clean_data/races.csv')
+                races = pandas.read_csv('collection/original_data/races.csv')
 
+                so = wptools.page(title).get_parse()
+                
+                if not hasattr(so.data, 'infobox') or 'Weather' not in so.data['infobox']:
+                    weather = 'unknowm'
+                else:
+                    weather = so.data['infobox'].get('Weather', 'unknown')
+
+                races['weather'] = weather
                 races.loc[(races['year'] == year) & (races['name'] == name), 'summary'] = text
+
                 races.to_csv('collection/clean_data/races.csv', index=False)
 
             except json.JSONDecodeError:

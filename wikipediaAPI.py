@@ -1,16 +1,22 @@
 import pandas as pd
 import requests
 import json
+import urllib.parse
 
 # Gather URLs
-df = pd.read_csv('collection/clean_data/races.csv')
-URLs = df['url']
+df = pd.read_csv('collection/original_data/races.csv')
+URLs = df.loc[df['name'] == 'São Paulo Grand Prix','url']
 
 wikipediaApiUrl = "https://en.wikipedia.org/w/api.php"
 
 for url in URLs:
     # Extract the title from the URL
-    title = url.split("/")[-1].replace("_", " ")
+    title = urllib.parse.unquote(url.split("/")[-1].replace("_", " "))
+
+    if title.endswith("Brazilian Grand Prix"):
+        year = title.replace(" Brazilian Grand Prix", "")  # Remove the suffix
+        title = f"{year} São Paulo Grand Prix"
+
     print(f"Fetching data for: {title}")
     
     params = {
