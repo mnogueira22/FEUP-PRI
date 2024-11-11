@@ -27,7 +27,7 @@ with open('./solr/documents.json', 'w', encoding='utf-8') as file:
             "circuit": row[4],
             "country": row[5],
             "location": row[6],
-            "weather curdition": row[7],
+            "weather condition": row[7],
             "summary": row[8],
         }
 

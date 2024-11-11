@@ -1,43 +1,105 @@
 {
 	"add-field-type": [
         {
-            "name":"courseTitle",
+            "name":"textTitle",
             "class":"solr.TextField",
             "indexAnalyzer":{
                 "tokenizer":{
-                    "class":"solr.StandardTokenizerFactory"
+                    "class":"solr.ClassicTokenizerFactory"
                 },
                 "filters":[
                     {"class":"solr.ASCIIFoldingFilterFactory", "preserveOriginal":true},
-                    {"class":"solr.LowerCaseFilterFactory"}
+                    {"class":"solr.LowerCaseFilterFactory"},
+                    {"class":"solr.EnglishMinimalStemFilterFactory"}
                 ]
             },
             "queryAnalyzer":{
                 "tokenizer":{
-                    "class":"solr.StandardTokenizerFactory"
+                    "class":"solr.ClassicTokenizerFactory"
                 },
                 "filters":[
                     {"class":"solr.ASCIIFoldingFilterFactory", "preserveOriginal":true},
-                    {"class":"solr.LowerCaseFilterFactory"}
+                    {"class":"solr.LowerCaseFilterFactory"},
+                    {"class":"solr.EnglishMinimalStemFilterFactory"}
                 ]
             }
         },
         {
-            "name": "numStudents",
-            "class": "solr.IntPointField"
+            "name":"arrayTitle",
+            "class":"solr.TextField",
+            "indexAnalyzer":{
+                "tokenizer":{
+                    "class":"solr.KeywordTokenizerFactory"
+                },
+                "filters":[
+                    {"class":"solr.ASCIIFoldingFilterFactory", "preserveOriginal":true},
+                    {"class":"solr.LowerCaseFilterFactory"},
+                    {"class":"solr.EnglishMinimalStemFilterFactory"}
+                ]
+            },
+            "queryAnalyzer":{
+                "tokenizer":{
+                    "class":"solr.KeywordTokenizerFactory"
+                },
+                "filters":[
+                    {"class":"solr.ASCIIFoldingFilterFactory", "preserveOriginal":true},
+                    {"class":"solr.LowerCaseFilterFactory"},
+                    {"class":"solr.EnglishMinimalStemFilterFactory"}
+                ]
+            }
         }
     ],
     "add-field": [
         {
-            "name": "title",
-            "type": "courseTitle",
+            "name": "round",
+            "type": "textTitle",
             "indexed": true
         },
         {
-            "name": "students",
-            "type": "numStudents",
-            "indexed": true,
-            "multiValued": false
+            "name": "date",
+            "type": "textTitle",
+            "indexed": true
+        },
+        {
+            "name": "circuit",
+            "type": "textTitle",
+            "indexed": true
+        },
+        {
+            "name": "country",
+            "type": "textTitle",
+            "indexed": true
+        },
+        {
+            "name": "location",
+            "type": "textTitle",
+            "indexed": true
+        },
+        {
+            "name": "country",
+            "type": "textTitle",
+            "indexed": true 
+        },
+        {
+            "name": "location",
+            "type": "textTitle",
+            "indexed": true
+        },
+        {
+            "name": "weather condition",
+            "type": "textTitle",
+            "indexed": true
+        },
+        {
+            "name": "summary",
+            "type": "textTitle",
+            "indexed": true
+        },
+        {
+            "name": "drivers",
+            "type": "arrayTitle",
+            "multiValued": true,
+            "indexed": true
         }
     ]
 }
