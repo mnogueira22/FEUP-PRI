@@ -1,7 +1,7 @@
 {
 	"add-field-type": [
         {
-            "name":"textTitle",
+            "name":"text",
             "class":"solr.TextField",
             "indexAnalyzer":{
                 "tokenizer":{
@@ -25,7 +25,7 @@
             }
         },
         {
-            "name":"arrayTitle",
+            "name":"array",
             "class":"solr.TextField",
             "indexAnalyzer":{
                 "tokenizer":{
@@ -34,7 +34,6 @@
                 "filters":[
                     {"class":"solr.ASCIIFoldingFilterFactory", "preserveOriginal":true},
                     {"class":"solr.LowerCaseFilterFactory"},
-                    {"class":"solr.EnglishMinimalStemFilterFactory"}
                 ]
             },
             "queryAnalyzer":{
@@ -44,7 +43,6 @@
                 "filters":[
                     {"class":"solr.ASCIIFoldingFilterFactory", "preserveOriginal":true},
                     {"class":"solr.LowerCaseFilterFactory"},
-                    {"class":"solr.EnglishMinimalStemFilterFactory"}
                 ]
             }
         }
@@ -52,54 +50,36 @@
     "add-field": [
         {
             "name": "round",
-            "type": "textTitle",
-            "indexed": true
+            "type": "pint"
         },
         {
             "name": "date",
-            "type": "textTitle",
-            "indexed": true
+            "type": "pdate"
         },
         {
             "name": "circuit",
-            "type": "textTitle",
-            "indexed": true
+            "type": "text"
         },
         {
             "name": "country",
-            "type": "textTitle",
-            "indexed": true
+            "type": "text"
         },
         {
             "name": "location",
-            "type": "textTitle",
-            "indexed": true
+            "type": "text"
         },
         {
-            "name": "country",
-            "type": "textTitle",
-            "indexed": true 
-        },
-        {
-            "name": "location",
-            "type": "textTitle",
-            "indexed": true
-        },
-        {
-            "name": "weather condition",
-            "type": "textTitle",
-            "indexed": true
+            "name": "weather_ condition",
+            "type": "text"
         },
         {
             "name": "summary",
-            "type": "textTitle",
-            "indexed": true
+            "type": "text"
         },
         {
             "name": "drivers",
-            "type": "arrayTitle",
-            "multiValued": true,
-            "indexed": true
+            "type": "array",
+            "multiValued": true
         }
     ]
 }
