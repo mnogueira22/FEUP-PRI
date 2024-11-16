@@ -1,6 +1,5 @@
 import subprocess
 import zipfile
-import os
 
 # Download the dataset using Kaggle API
 subprocess.run(['kaggle', 'datasets', 'download', '-d', 'rohanrao/formula-1-world-championship-1950-2020'])
