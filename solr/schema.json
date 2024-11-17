@@ -1,84 +1,108 @@
 {
-	"add-field-type": [
+    "add-field-type": [
         {
-            "name":"text",
-            "class":"solr.TextField",
-            "indexAnalyzer":{
-                "tokenizer":{
-                    "class":"solr.ClassicTokenizerFactory"
+            "name": "text",
+            "class": "solr.TextField",
+            "indexAnalyzer": {
+                "tokenizer": {
+                    "class": "solr.ClassicTokenizerFactory"
                 },
-                "filters":[
-                    {"class":"solr.ASCIIFoldingFilterFactory", "preserveOriginal":true},
-                    {"class":"solr.LowerCaseFilterFactory"},
-                    {"class":"solr.EnglishMinimalStemFilterFactory"}
+                "filters": [
+                    {"class": "solr.ASCIIFoldingFilterFactory", "preserveOriginal": true},
+                    {"class": "solr.LowerCaseFilterFactory"},
+                    {"class": "solr.StopFilterFactory", "words": "stopwords.txt", "ignoreCase": true},
+                    {"class": "solr.EnglishMinimalStemFilterFactory"}
                 ]
             },
-            "queryAnalyzer":{
-                "tokenizer":{
-                    "class":"solr.ClassicTokenizerFactory"
+            "queryAnalyzer": {
+                "tokenizer": {
+                    "class": "solr.ClassicTokenizerFactory"
                 },
-                "filters":[
-                    {"class":"solr.ASCIIFoldingFilterFactory", "preserveOriginal":true},
-                    {"class":"solr.LowerCaseFilterFactory"},
-                    {"class":"solr.EnglishMinimalStemFilterFactory"}
+                "filters": [
+                    {"class": "solr.ASCIIFoldingFilterFactory", "preserveOriginal": true},
+                    {"class": "solr.LowerCaseFilterFactory"},
+                    {"class": "solr.StopFilterFactory", "words": "stopwords.txt", "ignoreCase": true},
+                    {"class": "solr.EnglishMinimalStemFilterFactory"}
                 ]
             }
         },
         {
-            "name":"array",
-            "class":"solr.TextField",
-            "indexAnalyzer":{
-                "tokenizer":{
-                    "class":"solr.KeywordTokenizerFactory"
+            "name": "array",
+            "class": "solr.TextField",
+            "indexAnalyzer": {
+                "tokenizer": {
+                    "class": "solr.ClassicTokenizerFactory"
                 },
-                "filters":[
-                    {"class":"solr.ASCIIFoldingFilterFactory", "preserveOriginal":true},
-                    {"class":"solr.LowerCaseFilterFactory"}
+                "filters": [
+                    {"class": "solr.ASCIIFoldingFilterFactory", "preserveOriginal": true},
+                    {"class": "solr.LowerCaseFilterFactory"}
                 ]
             },
-            "queryAnalyzer":{
-                "tokenizer":{
-                    "class":"solr.KeywordTokenizerFactory"
+            "queryAnalyzer": {
+                "tokenizer": {
+                    "class": "solr.ClassicTokenizerFactory"
                 },
-                "filters":[
-                    {"class":"solr.ASCIIFoldingFilterFactory", "preserveOriginal":true},
-                    {"class":"solr.LowerCaseFilterFactory"}
+                "filters": [
+                    {"class": "solr.ASCIIFoldingFilterFactory", "preserveOriginal": true},
+                    {"class": "solr.LowerCaseFilterFactory"}
                 ]
             }
         }
     ],
     "add-field": [
         {
+            "name": "name",
+            "type": "text",
+            "stored": true,
+            "indexed": true
+        },
+        {
             "name": "round",
-            "type": "pint"
+            "type": "pint",
+            "stored": true,
+            "indexed": true
         },
         {
             "name": "date",
-            "type": "pdate"
+            "type": "pdate",
+            "stored": true,
+            "indexed": true
         },
         {
             "name": "circuit",
-            "type": "text"
+            "type": "text",
+            "stored": true,
+            "indexed": true
         },
         {
             "name": "country",
-            "type": "text"
+            "type": "text",
+            "stored": true,
+            "indexed": true
         },
         {
             "name": "location",
-            "type": "text"
+            "type": "text",
+            "stored": true,
+            "indexed": true
         },
         {
-            "name": "weather_ condition",
-            "type": "text"
+            "name": "weather_condition",
+            "type": "text",
+            "stored": true,
+            "indexed": true
         },
         {
             "name": "summary",
-            "type": "text"
+            "type": "text",
+            "stored": true,
+            "indexed": true
         },
         {
             "name": "drivers",
             "type": "array",
+            "stored": true,
+            "indexed": true,
             "multiValued": true
         }
     ]

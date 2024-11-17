@@ -21,7 +21,7 @@ with open('./solr/documents.json', 'w', encoding='utf-8') as file:
     file.write("[\n")
     for row in rows:
         document = {
-            "id": row[1]+' '+row[3][0:4],
+            "name": row[1]+' '+row[3][0:4],
             "round": row[2],
             "date": row[3],
             "circuit": row[4],

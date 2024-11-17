@@ -1,0 +1,94 @@
+{
+    "q1": {
+        "simple": {
+            "query": "champion Brazil Grand Prix",
+            "fields": "name, score",
+            "limit": 30,
+            "params": {
+                "q.op": "AND",
+                "df": "summary"
+            }
+        },
+        "boosted": {
+            "query": "champion Brazil Grand Prix",
+            "fields": "name, score",
+            "limit": 30,
+            "params": {
+                "defType": "edismax",
+                "q.op": "AND",
+                "qf": "name^5 circuit^4 country^3 location^2 weather_condition^2 summary^2 drivers^10",
+                "pf": "summary^5",
+                "sp": 3
+            }
+        }
+    },
+    "q2": {
+        "simple": {
+            "query": "Lewis Hamilton rain",
+            "fields": "name, score",
+            "limit": 30,
+            "params": {
+                "q.op": "AND",
+                "df": "summary"
+            }
+        },
+        "boosted": {
+            "query": "Lewis Hamilton rain",
+            "fields": "name, score",
+            "limit": 30,
+            "params": {
+                "defType": "edismax",
+                "q.op": "AND",
+                "qf": "name^5 circuit^4 country^3 location^2 weather_condition^2 summary^2 drivers^10",
+                "pf": "summary^5",
+                "sp": 3
+            }
+        }
+    },
+    "q3": {
+        "simple": {
+            "query": "shorter races",
+            "fields": "*",
+            "limit": 30,
+            "params": {
+                "q.op": "AND",
+                "df": "summary"
+            }
+        },
+        "boosted": {
+            "query": "races laps reduced",
+            "fields": "name, score",
+            "limit": 30,
+            "params": {
+                "defType": "edismax",
+                "q.op": "AND",
+                "qf": "name^5 circuit^4 country^3 location^2 weather_condition^2 summary^2 drivers^10",
+                "pf": "summary^5",
+                "sp": 3
+            }
+        }
+    },
+    "q4": {
+        "simple": {
+            "query": "Lotus return",
+            "fields": "*",
+            "limit": 30,
+            "params": {
+                "q.op": "AND",
+                "df": "summary"
+            }
+        },
+        "boosted": {
+            "query": "Lotus return",
+            "fields": "name",
+            "limit": 30,
+            "params": {
+                "defType": "edismax",
+                "q.op": "AND",
+                "qf": "name circuit country^2 location weather_condition summary^5 drivers",
+                "pf": "summary^10",
+                "sp": 3
+            }
+        }
+    }
+}

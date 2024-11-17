@@ -1,4 +1,6 @@
 docker run -p 8983:8983 --name meic_solr -v ${PWD}:/data -d solr:9 solr-precreate formula1
+docker cp ./solr/synonyms.txt meic_solr:/var/solr/data/formula1/conf
+docker cp ./solr/stopwords.txt meic_solr:/var/solr/data/formula1/conf
 sleep 2
 Invoke-WebRequest -Uri "http://localhost:8983/solr/formula1/schema" -Method POST -Headers @{"Content-Type"="application/json"} -Body (Get-Content -Path "./solr/schema.json" -Raw)
 ##curl -X POST -H 'Content-type:application/json' --data-binary "@./schema.json" http://localhost:8983/solr/formula1/schema

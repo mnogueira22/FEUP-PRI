@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 import argparse
 import json
 import sys
@@ -7,19 +5,31 @@ from pathlib import Path
 
 import requests
 
-query = "lotus after 2010"
+#passar boosted e q1 como args
 
-query_params = {
-    "query": query,
-    "fields": "id, weather_condition",
-    "limit": 20,
-    "params": {
-        "defType": "edismax",
-        "q.op": "OR",
-        "qf": "id circuit country^2 location weather_condition summary^5 drivers",
-        "pf": "summary^10"
-    }
-}
+parser = argparse.ArgumentParser(
+    description="Fetch search results from Solr and output them in JSON format."
+)
+
+parser.add_argument(
+        "--file",
+        type=Path,
+        required=True,
+        help="Path to the JSON file containing the Solr query parameters.",
+    )
+
+parser.add_argument(
+        "--type",
+        type=Path,
+        required=True,
+        help="Path to the JSON file containing the Solr query parameters.",
+    )
+
+
+args = parser.parse_args()
+
+with open("./solr/queries.json", "r") as f:
+    query_params = json.load(f)[str(args.file)][str(args.type)]
 
 # Construct the Solr request URL
 uri = f"http://localhost:8983/solr/formula1/select"
@@ -34,6 +44,8 @@ except requests.RequestException as e:
 
 # Fetch and print the results as JSON
 results = response.json()
+with open("./solr/response.json", 'w') as json_file:
+    json.dump(results, json_file)
 print(json.dumps(results, indent=2))
 
 
