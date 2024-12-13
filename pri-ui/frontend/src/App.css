@@ -1,0 +1,136 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #d32f2f);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+body {
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  text-align: center;
+  background: linear-gradient(135deg, #1e1e1e, #3d3d3d);
+  color: #fff;
+}
+
+.search-engine-container {
+  padding: 50px;
+}
+
+.logo-container img {
+  height: 120px;
+  margin-bottom: 20px;
+}
+
+h1 {
+  font-size: 2.8rem;
+  margin-top: 10px;
+  color: #fdfdfd;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.search-bar-container {
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.search-bar {
+  width: 60%; /* Reduced width */
+  padding: 8px 10px; /* Reduced padding */
+  font-size: 1.2rem;
+  border: 2px solid #d32f2f;
+  border-radius: 8px;
+  outline: none;
+  background-color: #292929;
+  color: #fff;
+  transition: border-color 0.3s ease;
+}
+
+.search-bar:focus {
+  border-color: #ff3d00;
+}
+
+.search-button {
+  padding: 12px 20px;
+  font-size: 1.2rem;
+  background-color: #d32f2f;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.search-button:hover {
+  background-color: #ff3d00;
+}
+
+.tagline {
+  margin-top: 20px;
+  font-size: 1rem;
+  color: #aaa;
+}
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  gap: 16px; /* Adjust the gap between cards */
+  justify-content: space-between; /* Distribute cards evenly across the width */
+}
+
+.card {
+  width: calc(25% - 16px); /* Increase card width, accounting for gaps */
+  box-sizing: border-box; /* Include padding and borders in width calculation */
+  background-color: black; /* Background color of the card */
+  border: 1px solid #ddd; /* Light border around cards */
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.card h2 {
+  margin: 0 0 8px; /* Adjust heading margin */
+}
+
+.card p {
+  margin: 0; /* Remove extra margin */
+}
