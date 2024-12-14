@@ -134,3 +134,59 @@ h1 {
 .card p {
   margin: 0; /* Remove extra margin */
 }
+
+.card-detail {
+  max-width: 600px;
+  margin: 20px auto; /* Center the content */
+  padding: 20px 0; /* Add vertical spacing */
+  font-family: Arial, sans-serif;
+  color: #f0f0f0; /* Light text for a darker theme */
+  line-height: 1.6; /* Improve readability */
+  text-align: left;
+}
+
+.card-detail h2 {
+  font-size: 28px; /* Larger font size for emphasis */
+  font-weight: bold; /* Strong emphasis */
+  color: #d62020; /* Highlighted F1 red color */
+  margin-bottom: 15px; /* Add extra spacing below */
+  text-align: center; /* Center-align title */
+  text-transform: uppercase; /* Make the title stand out more */
+}
+
+.card-detail p {
+  font-size: 16px; /* Standard font size for text */
+  margin: 10px 0; /* Add vertical spacing between paragraphs */
+}
+
+.card-detail p strong {
+  font-weight: bold;
+  color: #d62020; /* Use F1 red for the emphasized text */
+  margin-right: 5px; /* Add space after the label */
+}
+
+.card-detail p span {
+  color: #f0f0f0; /* Keep the rest of the text consistent with the theme */
+}
+
+.card-detail button {
+  display: inline-block;
+  margin-top: 20px; /* Add space above the button */
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #ffffff;
+  background-color: #d62020; /* F1 red theme */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.card-detail button:hover {
+  background-color: #b01a1a; /* Darker red on hover */
+}
+
+body {
+  background-color: #1a1a1a; /* Dark background for a sleek look */
+}
