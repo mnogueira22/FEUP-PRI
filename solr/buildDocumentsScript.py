@@ -33,7 +33,7 @@ with open('./solr/documents.json', 'w', encoding='utf-8') as file:
 
         drivers = cur.execute('''
             SELECT 
-                Drivers.forename, Drivers.surname
+                Drivers.driverID, Drivers.forename, Drivers.surname
             FROM 
                 Drivers
             JOIN 
@@ -41,10 +41,41 @@ with open('./solr/documents.json', 'w', encoding='utf-8') as file:
             WHERE
                 Results.raceId = ?
         ''', (row[0],)).fetchall()
-        driversName = []
+        driversWithRank = []
         for driver in drivers:
-            driversName.append(driver[0] + ' ' + driver[1])
-        document["drivers"] = driversName
+            driverID = driver[0]
+            driverName = driver[1] + ' ' + driver[2]
+            
+            num_races = cur.execute('''
+                SELECT COUNT(*) 
+                FROM Results 
+                WHERE driverID = ?
+            ''', (driverID,)).fetchone()[0]
+
+            num_championships = cur.execute('''
+                SELECT COUNT(*) 
+                FROM DriverChampionship 
+                WHERE driverID = ? AND position = 1
+            ''', (driverID,)).fetchone()[0]
+
+            num_wins = cur.execute('''
+                SELECT COUNT(*) 
+                FROM Results 
+                WHERE driverID = ? AND position = 1
+            ''', (driverID,)).fetchone()[0]
+
+            num_podiums = cur.execute('''
+                SELECT COUNT(*) 
+                FROM Results 
+                WHERE driverID = ? AND position <= 3
+            ''', (driverID,)).fetchone()[0]
+
+            rank = num_races + (num_championships * 10) + (num_wins * 5) + (num_podiums * 2)
+            
+            driversWithRank.append((driverName, rank))
+
+        document["drivers"] = driversWithRank
+
         json_data = json.dumps(document)
         file.write(json_data + ",\n")
     file.write("\n]")
