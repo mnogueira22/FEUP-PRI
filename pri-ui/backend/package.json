@@ -10,7 +10,10 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "compromise": "^14.14.3",
     "cors": "^2.8.5",
-    "express": "^4.21.2"
+    "express": "^4.21.2",
+    "natural": "^8.0.1",
+    "stopword": "^3.1.3"
   }
 }
