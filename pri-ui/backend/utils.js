@@ -1,5 +1,6 @@
-import natural from 'natural';
-import stopword from 'stopword';
+const natural = require('natural');
+const stopword = require('stopword');
+
 
 const tokenizer = new natural.WordTokenizer();
 const language = "EN"
@@ -24,5 +25,6 @@ function preprocessQuery(query) {
   return filteredTokens.join(" ");
 }
 
-export { preprocessQuery };
+module.exports = { preprocessQuery };
+
 

@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import './App.css';
 
 function App() {
@@ -11,8 +11,11 @@ function App() {
   const [years, setYears] = useState({});
   const [selectCircuit, setSelectCircuit] = useState('');
   const [selectYear, setSelectYear] = useState('');
-  const resultsPerPage = 18;
-
+  const [previousSearches, setPreviousSearches] = useState([]);
+  const [autocompleteSuggestions, setAutocompleteSuggestions] = useState([]);
+  const [isInputFocused, setIsInputFocused] = useState(false); // Added state for input focus
+  const resultsPerPage = 20;
+  
   const performSearch = useCallback(async (searchQuery, order) => {
     try {
       const response = await fetch(`http://localhost:3000/solr-query`, {
@@ -50,10 +53,19 @@ function App() {
       setYears(yearCount);
 
       setCurrentPage(1);
+
+      // Save the search query if it's not already in the list
+      if (searchQuery !== '*' && !previousSearches.includes(searchQuery)) {
+        setPreviousSearches(prev => [...prev, searchQuery]);
+      }
     } catch (error) {
       console.error('Search failed:', error);
       alert(`Search failed: ${error.message}`);
     }
+  }, [previousSearches]);
+
+  useEffect(() => {
+    performSearch('*', sortOrder);
   }, []);
 
   const handleCardClick = (card) => {
@@ -67,8 +79,7 @@ function App() {
   const handleSearch = () => {
     if (query.trim()) {
       performSearch(query, sortOrder);
-    } else {
-      alert('Please enter a search term.');
+      setAutocompleteSuggestions([]); // Clear suggestions after search
     }
   };
 
@@ -88,12 +99,35 @@ function App() {
     }
   };
 
+  const handleQueryChange = (e) => {
+    const value = e.target.value;
+    setQuery(value);
+
+    // Generate autocomplete suggestions
+    const suggestions = previousSearches.filter(search =>
+      search.toLowerCase().startsWith(value.toLowerCase())
+    );
+    setAutocompleteSuggestions(suggestions);
+  };
+
+  const handleAutocompleteSelect = (selectedQuery) => {
+    setQuery(selectedQuery);
+    performSearch(selectedQuery, sortOrder);
+    setAutocompleteSuggestions([]); // Clear suggestions after selection
+  };
+
+  const handleInputFocus = () => setIsInputFocused(true); // Added focus handler
+  const handleInputBlur = () => {
+    // Delay hiding suggestions to allow for clicks on the suggestions
+    setTimeout(() => setIsInputFocused(false), 200);
+  }; // Added blur handler
+
   const filteredResults = (selectCircuit || selectYear)
-  ? searchResults.filter(result => 
+    ? searchResults.filter(result =>
       (!selectCircuit || result.circuit === selectCircuit) &&
       (!selectYear || new Date(result.date).getFullYear() === parseInt(selectYear))
     )
-  : searchResults;
+    : searchResults;
 
   const totalPages = Math.ceil(filteredResults.length / resultsPerPage);
   const currentResults = filteredResults.slice(
@@ -114,11 +148,22 @@ function App() {
             className="search-bar"
             placeholder="Search F1 races ..."
             value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            onChange={handleQueryChange}
+            onFocus={handleInputFocus} // Added focus event handler
+            onBlur={handleInputBlur} // Added blur event handler
           />
           <button className="search-button" onClick={handleSearch}>
             Search
           </button>
+          {isInputFocused && autocompleteSuggestions.length > 0 && ( // Updated condition for rendering suggestions
+            <ul className="autocomplete-list">
+              {autocompleteSuggestions.map((suggestion, index) => (
+                <li key={index} onClick={() => handleAutocompleteSelect(suggestion)}>
+                  {suggestion}
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
         <p className="tagline">Your gate into the F1 World!</p>
         <div className="sort-container">
@@ -129,41 +174,31 @@ function App() {
               <option value="desc">Descending</option>
             </select>
           </label>
+          <label>
+            Filter by Circuit:
+            <select value={selectCircuit} onChange={handleCircuitChange}>
+              <option value="">All Circuits</option>
+              {Object.entries(circuits).map(([circuit, count], index) => (
+                <option key={index} value={circuit}>
+                  {circuit}: {count}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label>
+            Filter by Year:
+            <select value={selectYear} onChange={handleYearChange}>
+              <option value="">All Years</option>
+              {Object.entries(years).map(([year, count], index) => (
+                <option key={index} value={year}>
+                  {year}: {count}
+                </option>
+              ))}
+            </select>
+          </label>
         </div>
 
         <div className="main-content">
-          {/* Sidebar Section */}
-          {!selectedCard && (
-            <div className="sidebar">
-              <div>
-                <label>
-                  Filter by Circuit:
-                  <select value={selectCircuit} onChange={handleCircuitChange}>
-                    <option value="">All Circuits</option>
-                    {Object.entries(circuits).map(([circuit, count], index) => (
-                      <option key={index} value={circuit}>
-                        {circuit}: {count}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-              </div>
-
-              <div>
-                <label>
-                  Filter by Year:
-                  <select value={selectYear} onChange={handleYearChange}>
-                    <option value="">All Years</option>
-                    {Object.entries(years).map(([year, count], index) => (
-                      <option key={index} value={year}>
-                        {year}: {count}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-              </div>
-            </div>
-          )}
 
           {/* Main Results Section */}
           <div className="card-container">
@@ -192,7 +227,7 @@ function App() {
                   </div>
                 ))
               ) : (
-                <p>No results found</p>
+                null
               )
             )}
           </div>
@@ -222,3 +257,4 @@ function App() {
 }
 
 export default App;
+
