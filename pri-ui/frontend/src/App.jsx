@@ -14,7 +14,7 @@ function App() {
   const [previousSearches, setPreviousSearches] = useState([]);
   const [autocompleteSuggestions, setAutocompleteSuggestions] = useState([]);
   const [isInputFocused, setIsInputFocused] = useState(false); // Added state for input focus
-  const resultsPerPage = 20;
+  const resultsPerPage = 15;
   
   const performSearch = useCallback(async (searchQuery, order) => {
     try {
